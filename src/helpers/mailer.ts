@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import User from "@/models/userModel";
 import bcryptjs from "bcryptjs";
 
@@ -38,8 +39,11 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
           : `<p>Click <a href="${process.env.DOMAIN}/resetpassword?token=${token}">here</a> to reset your password</p>`,
     };
 
-    const mailResponse = await transport.sendMail(mailOptions);
-  } catch (error: any) {
-    throw new Error(error.message);
+    await transport.sendMail(mailOptions);
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw error;
   }
 };

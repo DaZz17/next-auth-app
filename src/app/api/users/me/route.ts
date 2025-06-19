@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
 import { getDataFromToken } from "@/helpers/getdatafromtoken";
 import { connect } from "@/dbconfig/dbconfig";

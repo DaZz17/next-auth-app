@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import React from "react";
 import axios from "axios";
@@ -45,8 +46,12 @@ export default function ResetPasswordPage() {
       setSuccess(true);
       setError(false);
       router.push("/login");
-    } catch (error: any) {
-      console.log(error.message);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error.response?.data.error);
+      } else {
+        console.log("An unexpected error occurred");
+      }
       setError(true);
     } finally {
       setLoading(false);

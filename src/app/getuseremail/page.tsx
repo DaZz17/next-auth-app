@@ -20,8 +20,12 @@ export default function GetUserEmailPage() {
       const response = await axios.post("/api/users/getuseremail", { email });
       console.log(response.data);
       router.push("/login");
-    } catch (error: any) {
-      console.log(error.message);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error.response?.data.error);
+      } else {
+        console.log("An unexpected error occurred");
+      }
       setError(true);
     } finally {
       setLoading(false);

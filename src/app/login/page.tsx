@@ -18,11 +18,17 @@ export default function LoginPage() {
   const onLogin = async () => {
     try {
       setLoading(true);
-      const response = await axios.post("/api/users/login", user);
+      await axios.post("/api/users/login", user);
       toast.success("Login successful");
       router.push("/profile");
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data?.message || error.message);
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unknown error occurred");
+      }
     } finally {
       setLoading(false);
     }
@@ -78,7 +84,7 @@ export default function LoginPage() {
           {buttonDisabled ? "No Login" : "Login"}
         </Button>
         <div className="flex flex-row items-center justify-center text-sm">
-          <span>Don't have an account?</span>
+          <span>Don&apos;t have an account?</span>
           <Link
             href="/signup"
             className="cursor-pointer underline text-blue-500 ml-2"

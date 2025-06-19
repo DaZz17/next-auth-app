@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import axios from "axios";
@@ -11,10 +12,15 @@ export default function VerifyEmailPage() {
 
   const verifyUserEmail = async () => {
     try {
-      const response = await axios.post("/api/users/verifyemail", { token });
+      await axios.post("/api/users/verifyemail", { token });
       setVerified(true);
       setError(false);
-    } catch (error: any) {
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error.response?.data.error);
+      } else {
+        console.log("An unexpected error occurred");
+      }
       setError(true);
     }
   };
